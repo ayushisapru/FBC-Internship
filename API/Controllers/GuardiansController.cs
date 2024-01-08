@@ -7,28 +7,28 @@ namespace test2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GaurdiansController : ControllerBase
+    public class GuardiansController: ControllerBase
     {
         private readonly SurveyDBContext _context;
         private IConfiguration _configuration;
         private IDbContextTransaction _transaction;
 
-        public GaurdiansController(SurveyDBContext context, IConfiguration iconfig, bool embeddedTransaction = false, IDbContextTransaction? contextTransaction = null)
+        public GuardiansController(SurveyDBContext context, IConfiguration iconfig, bool embeddedTransaction = false, IDbContextTransaction? contextTransaction = null)
         {
             _context = context;
             _configuration = iconfig;
             _transaction = embeddedTransaction ? contextTransaction! : context.Database.BeginTransaction();
         }
 
-        // GET: api/Gaurdians
+        // GET: api/Guardians
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Gaurdians>>> GetGaurdians()
+        public async Task<ActionResult<IEnumerable<Guardians>>> GetGuardians()
         {
-          if (_context.Gaurdians == null)
+          if (_context.Guardians == null)
           {
               return NotFound();
           }
-            return await _context.Gaurdians.ToListAsync();
+            return await _context.Guardians.ToListAsync();
         }
 
         // GET: api/QAndAs/5
@@ -49,21 +49,21 @@ namespace test2.Controllers
             return qAndA;
         }
 
-        // PUT: api/Gaurdians/5
+        // PUT: api/Guardians/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGaurdians(int id, string apikey, Gaurdians gaurdians)
+        public async Task<IActionResult> PutGuardians(int id, string apikey, Guardians guardians)
         {
             if (!apikey.Equals(_configuration.GetValue<string>("AdminKey"))) return Unauthorized("Please supply valid API key");
 
-            gaurdians.GaurdianId = id;
+            guardians.GuardianId = id;
 
-            if (id != gaurdians.GaurdianId)
+            if (id != guardians.GuardianId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(gaurdians).State = EntityState.Modified;
+            _context.Entry(guardians).State = EntityState.Modified;
 
             try
             {
@@ -72,7 +72,7 @@ namespace test2.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 await _transaction.RollbackAsync();
-                if (!GaurdiansExists(id))
+                if (!GuardiansExists(id))
                 {
                     return NotFound();
                 }
@@ -85,21 +85,21 @@ namespace test2.Controllers
             return NoContent();
         }
 
-        // POST: api/Gaurdians
+        // POST: api/Guardians
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("{apikey}")]
-        public async Task<ActionResult<Gaurdians>> PostGaurdians(IEnumerable<Gaurdians> gaurdians, string apikey)
+        public async Task<ActionResult<Guardians>> PostGuardians(IEnumerable<Guardians> guardians, string apikey)
         {
             if (!apikey.Equals(_configuration.GetValue<string>("GeneralSurveyKey"))) return Unauthorized("Please supply valid API key");
 
             try {
-                foreach (Gaurdians gaurd in gaurdians)
+                foreach (Guardians guard in guardians)
                 {
-                    if (_context.Gaurdians == null)
+                    if (_context.Guardians == null)
                     {
-                        return Problem("Entity set 'SurveyDBContext.Gaurdians'  is null.");
+                        return Problem("Entity set 'SurveyDBContext.Guardians'  is null.");
                     }
-                    _context.Gaurdians.Add(gaurd);
+                    _context.Guardians.Add(guard);
 
                 }
 
@@ -114,9 +114,9 @@ namespace test2.Controllers
             }
         }
 
-        private bool GaurdiansExists(int id)
+        private bool GuardiansExists(int id)
         {
-            return (_context.Gaurdians?.Any(e => e.GaurdianId == id)).GetValueOrDefault();
+            return (_context.Guardians?.Any(e => e.GuardianId == id)).GetValueOrDefault();
         }
     }
 }
