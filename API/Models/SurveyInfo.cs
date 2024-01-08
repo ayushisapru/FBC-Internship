@@ -8,7 +8,7 @@ namespace test2.Models
         public SurveyInfo()
         {
             AdditionalPeople = new HashSet<AdditionalPeople>();
-            Gaurdians = new HashSet<Gaurdians>();
+            Guardians = new HashSet<Guardians>();
             Interviewers = new HashSet<Interviewers>();
             QAndA = new HashSet<QAndA>();
         }
@@ -25,7 +25,7 @@ namespace test2.Models
         public DateTime? UserUpdatedDateTime { get; set; }
 
         public virtual ICollection<AdditionalPeople>? AdditionalPeople { get; set; }
-        public virtual ICollection<Gaurdians>? Gaurdians { get; set; }
+        public virtual ICollection<Guardians>? Guardians { get; set; }
         public virtual ICollection<Interviewers>? Interviewers { get; set; }
         public virtual ICollection<QAndA>? QAndA { get; set; }
     }
